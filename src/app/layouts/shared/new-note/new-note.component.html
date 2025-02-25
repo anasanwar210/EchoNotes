@@ -1,0 +1,19 @@
+@if (isNewNote) {
+<div id="popup" (click)="closeNewNotePopup()"
+  class="fixed inset-0 z-50 items-center justify-center flex bg-black bg-opacity-50">
+  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md dark:bg-gray-800" (click)="$event.stopPropagation()">
+    <h3 class="text-center text-xl font-semibold text-gray-800 dark:text-white">Write Your Note</h3>
+    <form>
+      <input type="text" placeholder="Enter note title"
+        class="w-full p-2 mt-4 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <textarea class="w-full p-2 mt-4 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300"
+        rows="5" placeholder="Enter note content"></textarea>
+      <div class="flex justify-end mt-4 space-x-4">
+        <button class="px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700">
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}

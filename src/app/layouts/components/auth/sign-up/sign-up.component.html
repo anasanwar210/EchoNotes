@@ -1,0 +1,141 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="fixed top-4 right-4">
+
+    <!-- Dark/Light Mode Toggle -->
+    <app-mode></app-mode>
+  </div>
+  <app-main-title></app-main-title>
+  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-2xl dark:bg-gray-800">
+
+    <h2 class="mb-6 text-2xl font-bold text-center text-gray-900 dark:text-white">Sign Up</h2>
+
+    <form [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
+      <div class="mb-4">
+        <label for="name" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <i class="mr-2 text-indigo-600 fas fa-user"></i>Full Name
+        </label>
+        <input formControlName="name" type="text" id="name"
+          class="block w-full px-3 py-2 mt-1 mb-2 transition-all border rounded-lg shadow-sm outline-none focus:border-indigo-400 focus:ring-2 dark:bg-gray-700 dark:text-white"
+          placeholder="Enter your full name" [class]="{
+            'border-red-500': signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched,
+            'border-green-500': signUpForm.get('name')?.valid && signUpForm.get('name')?.touched
+          }">
+        @if (signUpForm.get('name')?.errors && signUpForm.get('name')?.touched) {
+        <div class="alert">
+          @if (signUpForm.get('name')?.getError('required')) {
+          <li>Name is required</li>
+          }@else if (signUpForm.get('name')?.getError('pattern')) {
+          <li>The name must be between 3 and 20 characters and contain only letters.</li>
+          }
+        </div>
+        }
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <i class="mr-2 text-indigo-600 fas fa-envelope"></i>Email
+        </label>
+        <input formControlName="email" type="email" id="email"
+          class="block w-full px-3 py-2 mt-1 mb-2 transition-all border rounded-lg shadow-sm outline-none focus:border-indigo-400 focus:ring-2 dark:bg-gray-700 dark:text-white"
+          placeholder="Enter your email" [class]="{
+            'border-red-500': signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched,
+            'border-green-500': signUpForm.get('email')?.valid && signUpForm.get('email')?.touched
+          }">
+        @if (signUpForm.get('email')?.errors && signUpForm.get('email')?.touched) {
+        <div class="alert">
+          @if (signUpForm.get('email')?.getError('required')) {
+          <li>Email is required</li>
+          }@else if (signUpForm.get('email')?.getError('pattern')) {
+          <li>Invalid email format. Please enter a valid email address.</li>
+          }
+        </div>
+        }@else if (errMsg) {
+        <div class="alert">
+          <li>{{errMsg}}</li>
+        </div>
+        }
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <i class="mr-2 text-indigo-600 fas fa-lock"></i>Password
+        </label>
+        <div class="relative">
+          <input formControlName="password" type="password" id="password"
+            class="block w-full px-3 py-2 mt-1 mb-2 transition-all border rounded-lg shadow-sm outline-none focus:border-indigo-400 focus:ring-2 dark:bg-gray-700 dark:text-white"
+            placeholder="Enter your password" [class]="{
+              'border-red-500': signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched,
+              'border-green-500': signUpForm.get('password')?.valid && signUpForm.get('password')?.touched
+            }">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+            (click)="passTypeService.togglePasswordVisibility()">
+            <i id="eyeIcon" class="text-gray-500 fas fa-eye"></i>
+          </div>
+        </div>
+        @if (signUpForm.get('password')?.errors && signUpForm.get('password')?.touched) {
+        <div class="alert">
+          @if (signUpForm.get('password')?.getError('required')) {
+          <li>Password is required</li>
+          }@else if (signUpForm.get('password')?.getError('pattern')) {
+          <li>Password must be at least 4 characters long and include at least one uppercase letter and one number.</li>
+          }
+        </div>
+        }
+      </div>
+      <div class="mb-4">
+        <label for="age" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <i class="mr-2 text-indigo-600 fas fa-birthday-cake"></i>Age
+        </label>
+        <input formControlName="age" type="number" id="age"
+          class="block w-full px-3 py-2 mt-1 mb-2 transition-all border rounded-lg shadow-sm outline-none focus:border-indigo-400 focus:ring-2 dark:bg-gray-700 dark:text-white"
+          placeholder="Enter your age" [class]="{
+            'border-red-500': signUpForm.get('age')?.invalid && signUpForm.get('age')?.touched,
+            'border-green-500': signUpForm.get('age')?.valid && signUpForm.get('age')?.touched
+          }">
+        @if (signUpForm.get('age')?.errors && signUpForm.get('age')?.touched) {
+        <div class="alert">
+          @if (signUpForm.get('age')?.getError('required')) {
+          <li>Age is required</li>
+          }@else if (signUpForm.get('age')?.getError('pattern')) {
+          <li>Age must be between 18 and 99.</li>
+          }
+        </div>
+        }
+      </div>
+      <div class="mb-6">
+        <label for="phone" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <i class="mr-2 text-indigo-600 fas fa-phone"></i>Phone
+        </label>
+        <input formControlName="phone" type="tel" id="phone"
+          class="block w-full px-3 py-2 mt-1 mb-2 transition-all border rounded-lg shadow-sm outline-none focus:border-indigo-400 focus:ring-2 dark:bg-gray-700 dark:text-white"
+          placeholder="Enter your phone number" [class]="{
+            'border-red-500': signUpForm.get('phone')?.invalid && signUpForm.get('phone')?.touched,
+            'border-green-500': signUpForm.get('phone')?.valid && signUpForm.get('phone')?.touched
+          }">
+        @if (signUpForm.get('phone')?.errors && signUpForm.get('phone')?.touched) {
+        <div class="alert">
+          @if (signUpForm.get('phone')?.getError('required')) {
+          <li>Phone is required</li>
+          }@else if (signUpForm.get('phone')?.getError('pattern')) {
+          <li>Phone number must start with 010, 011, or 012 and be 11 digits long.</li>
+          }
+        </div>
+        }
+      </div>
+      <button [disabled]="signUpForm.invalid" [ngClass]="{
+    'cursor-not-allowed hover:scale-100 active:scale-100': signUpForm.invalid,
+    'cursor-pointer hover:scale-105 active:scale-95': !signUpForm.invalid
+
+      }" class="w-full px-4 py-2 text-white transition-all transform bg-indigo-600 rounded-lg hover:bg-indigo-700">
+        @if (resState) {
+        <i class="ml-2 mr-3 text-gray-400 fas fa-spinner fa-spin"></i>
+        } @else {
+        <i class="mr-2 fas fa-user-plus"></i>
+        Sign Up
+        }
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+      Already have an account?
+      <a [routerLink]="['/signin']" class="text-indigo-600 dark:text-indigo-400 hover:underline">Sign In</a>
+    </p>
+  </div>
+</div>
