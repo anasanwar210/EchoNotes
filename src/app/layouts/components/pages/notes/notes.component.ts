@@ -14,6 +14,8 @@ import { LogoutComponent } from '../../../shared/logout/logout.component';
 import { NewNoteComponent } from '../../../shared/new-note/new-note.component';
 import { isPlatformBrowser } from '@angular/common';
 import { CurrentNoteComponent } from '../../../shared/current-note/current-note.component';
+import { SearchPipe } from '../../../../core/pipe/search/search.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notes',
@@ -23,6 +25,8 @@ import { CurrentNoteComponent } from '../../../shared/current-note/current-note.
     LogoutComponent,
     NewNoteComponent,
     CurrentNoteComponent,
+    SearchPipe,
+    FormsModule,
   ],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss',
@@ -34,6 +38,7 @@ export class NotesComponent implements OnInit {
   private readonly ID = inject(PLATFORM_ID);
   allNotes: INote[] = [];
   curNote: WritableSignal<INote | null> = signal(null);
+  searchValue: string = '';
 
   // Call Services
   private readonly noteOperationsService: NoteOperationsService = inject(
