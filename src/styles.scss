@@ -12,3 +12,7 @@ body {
 .alert {
   @apply bg-red-200 text-red-700 px-2 py-1 rounded-lg;
 }
+
+.authFormStyle {
+  @apply w-full max-w-md p-8 transition-all transform bg-white border border-gray-300 rounded-lg shadow-2xl dark:border-indigo-500 ring-2 ring-indigo-500 dark:bg-gray-800;
+}

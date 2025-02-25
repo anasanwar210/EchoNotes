@@ -5,36 +5,43 @@
     <app-logout></app-logout>
   </div>
   <button (click)="toggleVisibility()"
-    class="fixed z-30 p-4 text-white transition-all transform bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full shadow-lg bottom-8 right-8 hover:from-indigo-700 hover:to-purple-700 hover:scale-110 focus:outline-none"
+    class="fixed z-30 p-4 text-white transition-all transform rounded-full shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 bottom-8 right-8 hover:from-indigo-700 hover:to-purple-700 hover:scale-110 focus:outline-none"
     title="Add Note">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
     </svg>
   </button>
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-    <div class="p-6 transition-all transform bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-2xl cursor-pointer dark:from-gray-700 dark:to-gray-800 hover:scale-105 hover:shadow-3xl animate-fadeIn duration-300 relative overflow-hidden border border-yellow-200 dark:border-gray-600 
-    hover:border-yellow-500 dark:hover:border-gray-400">
+    @if (allNotes.length > 0) {
+    @for (note of allNotes; track $index) {
+    <div (click)="viewNote(); currentNote(note)"
+      class="relative p-6 overflow-hidden transition-all duration-300 transform border border-yellow-200 rounded-lg shadow-2xl cursor-pointer bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-gray-700 dark:to-gray-800 hover:scale-105 hover:shadow-3xl animate-fadeIn dark:border-gray-600 hover:border-yellow-500 dark:hover:border-gray-400">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent to-yellow-100 dark:to-gray-600 opacity-20"></div>
       <div
-        class="absolute -top-2 -left-2 w-24 h-24 bg-yellow-50 dark:bg-gray-600 transform rotate-45 origin-bottom-right opacity-30">
+        class="absolute w-24 h-24 origin-bottom-right transform rotate-45 -top-2 -left-2 bg-yellow-50 dark:bg-gray-600 opacity-30">
       </div>
-      <div class="relative z-10 flex flex-col h-[90%]">
-        <h3
-          class="text-xl font-semibold text-gray-800 dark:text-white border-b border-gray-300 dark:border-gray-500 pb-2 mb-2">
-          Another Note</h3>
-        <p class="text-gray-600 dark:text-gray-300 line-clamp-3 overflow-hidden">
-          This is another example note content This is another example note content This is another example note content
-          This is another example note content
-        </p>
-      </div>
-      <div class="text-right">
-        <button (click)="$event.stopPropagation()"
-          class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">
-          Delete
+      <div class="absolute top-3 right-3">
+        <button (click)="$event.stopPropagation();deleteNote(note._id)"
+          class="flex items-center justify-center w-10 h-10 text-red-600 transition-all duration-300 bg-transparent rounded-full shadow-md hover:text-white dark:text-red-400 dark:hover:text-white hover:bg-red-600 dark:hover:bg-red-500 hover:scale-105 hover:rotate-3 hover:shadow-xl hover:shadow-red-500/40">
+          <i class="text-lg fa fa-trash-alt"></i>
         </button>
       </div>
+      <div class="relative mt-5 z-10 flex flex-col h-[90%]">
+        <h3
+          class="pb-2 mb-2 text-xl font-semibold text-gray-800 border-b border-gray-300 dark:text-white dark:border-gray-500">
+          {{note.title}}
+        </h3>
+        <p class="overflow-hidden text-gray-600 dark:text-gray-300 line-clamp-3">
+          {{note.content}}
+        </p>
+      </div>
     </div>
+
+    }
+    }
   </div>
 </div>
 
-<app-new-note [isNewNote]="isNewNote()" (closeNewNote)="toggleVisibility()"></app-new-note>
+<app-new-note (noteAdded)="getUserNotes()" [isNewNote]="isNewNote()" (closeNewNote)="toggleVisibility()"></app-new-note>
+<app-current-note (noteAdded)="getUserNotes()" [isViewNote]="isViewNote()" [curNote]="curNote()"
+  (closeViewNote)="viewNote()"></app-current-note>

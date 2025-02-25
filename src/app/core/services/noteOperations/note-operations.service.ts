@@ -7,6 +7,10 @@ import {
 } from '../../interfaces/addNotes/add-notes';
 import { environment } from '../../environment/environment';
 import { IGetNotesResponse } from '../../interfaces/getUserNotes/get-user-notes';
+import {
+  IUpDateNoteToBackEnd,
+  IUpDateResponse,
+} from '../../interfaces/updateNote/update-note';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +45,32 @@ export class NoteOperationsService {
   getUserNote(): Observable<IGetNotesResponse> {
     return this.httpClient.get<IGetNotesResponse>(
       `${environment.baseURL}/notes`
+    );
+  }
+
+  /*
+  ==================================================
+  3) ------> Delete Specific Note
+  ==================================================
+  */
+  deleteNote(id: string): Observable<{ msg: string }> {
+    return this.httpClient.delete<{ msg: string }>(
+      `${environment.baseURL}/notes/${id}`
+    );
+  }
+
+  /*
+  ==================================================
+  4) ------> Update Specific Note
+  ==================================================
+  */
+  updateNote(
+    id: string,
+    updatedNote: IUpDateNoteToBackEnd
+  ): Observable<IUpDateResponse> {
+    return this.httpClient.put<IUpDateResponse>(
+      `${environment.baseURL}/notes/${id}`,
+      updatedNote
     );
   }
 }

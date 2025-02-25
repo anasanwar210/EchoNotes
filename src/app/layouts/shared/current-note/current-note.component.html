@@ -1,1 +1,72 @@
-<p>current-note works!</p>
+@if (isViewNote) {
+<div (click)="closeViewNotePopup()" id="popup"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="relative w-full max-w-md px-6 pt-12 pb-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    (click)="$event.stopPropagation()">
+    <button (click)="closeViewNotePopup()"
+      class="absolute p-2 text-gray-500 transition-colors duration-200 rounded-full top-3 right-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+      <i class="text-lg fas fa-times"></i>
+    </button>
+    <h3 class="text-xl font-semibold text-center text-gray-800 dark:text-white">Your Note</h3>
+    <form [formGroup]="updateNoteForm">
+      <input formControlName="title" type="text" placeholder="Enter note title"
+        class="w-full p-2 mt-4 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <textarea formControlName="content"
+        class="w-full p-2 mt-4 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300" rows="5"
+        placeholder="Enter note content"></textarea>
+      <div class="flex justify-end mt-4 space-x-4">
+        <button (click)="updateNote()"
+          class="w-full px-4 py-2 text-white transition-all transform bg-yellow-600 rounded-lg hover:bg-yellow-700">
+          <i class="fa fa-edit"></i>
+          Update
+        </button>
+        <button (click)="openDeletePopup()"
+          class="w-full px-4 py-2 text-white transition-all transform bg-red-600 rounded-lg hover:bg-red-700">
+          <i class="fa fa-trash"></i>
+          Delete
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- Delete Confirmation Popup -->
+@if (isDeletePopupOpen) {
+<div (click)="closeDeletePopup()" id="deletePopup"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+
+  <div class="relative w-full max-w-sm p-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    (click)="$event.stopPropagation()">
+
+    <button (click)="closeDeletePopup()"
+      class="absolute p-2 text-gray-500 transition-colors duration-200 rounded-full top-3 right-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+      <i class="text-lg fas fa-times"></i>
+    </button>
+
+    <div class="flex flex-col items-center">
+      <i class="text-4xl text-red-600 fas fa-exclamation-circle dark:text-red-400"></i>
+      <h3 class="mt-2 text-xl font-semibold text-gray-800 dark:text-white">
+        Are You Sure?
+      </h3>
+      <p class="mt-1 text-center text-gray-600 dark:text-gray-300">
+        Do you really want to delete this note? This action cannot be undone.
+      </p>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <button (click)="confirmDelete()"
+        class="flex items-center px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700">
+        <i class="mr-2 fas fa-trash-alt"></i>
+        Yes, Delete
+      </button>
+      <button (click)="closeDeletePopup()"
+        class="flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+        <i class="mr-2 fas fa-times"></i>
+        No, Cancel
+      </button>
+    </div>
+
+  </div>
+</div>
+}
