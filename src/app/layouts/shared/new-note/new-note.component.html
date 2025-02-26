@@ -1,36 +1,43 @@
 @if (isNewNote) {
 <div id="popup" (click)="closeNewNotePopup()"
   class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="relative w-full max-w-md px-6 pt-12 pb-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+  <div
+    class="relative w-full max-w-md mx-4 px-4 py-6 bg-white rounded-lg shadow-md dark:bg-gray-800 sm:max-w-lg sm:px-6 sm:py-8"
     (click)="$event.stopPropagation()">
     <button (click)="closeNewNotePopup()"
       class="absolute p-2 text-gray-500 transition-colors duration-200 rounded-full top-3 right-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
       <i class="text-lg fas fa-times"></i>
     </button>
-    <h3 class="text-xl font-semibold text-center text-gray-800 dark:text-white">Write Your Note</h3>
-    <form [formGroup]="newNoteForm" (ngSubmit)="addNewNote()">
-      <input formControlName="title" type="text" placeholder="Enter note title"
-        class="w-full p-2 mt-4 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-      @if (newNoteForm.get('title')?.getError("required") && newNoteForm.get('title')?.touched) {
-      <div class="alert">
-        <p>Title Is Required</p>
+    <h3 class="text-xl font-semibold text-center text-gray-800 dark:text-white sm:text-2xl">Write Your Note</h3>
+    <form [formGroup]="newNoteForm" (ngSubmit)="addNewNote()" class="mt-6">
+
+      <div>
+        <input formControlName="title" type="text" placeholder="Enter note title"
+          class="w-full p-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        @if (newNoteForm.get('title')?.getError("required") && newNoteForm.get('title')?.touched) {
+        <div class="alert">
+          <p>Title Is Required</p>
+        </div>
+        }
       </div>
-      }
-      <textarea formControlName="content"
-        class="w-full p-2 mt-4 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300" rows="5"
-        placeholder="Enter note content"></textarea>
-      @if (newNoteForm.get('content')?.getError("required") && newNoteForm.get('content')?.touched) {
-      <div class="alert">
-        <p>Content Is Required</p>
+
+      <div class="mt-4">
+        <textarea formControlName="content"
+          class="w-full p-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          rows="5" placeholder="Enter note content"></textarea>
+        @if (newNoteForm.get('content')?.getError("required") && newNoteForm.get('content')?.touched) {
+        <div class="alert">
+          <p>Content Is Required</p>
+        </div>
+        }
       </div>
-      }
-      <div class="flex justify-end mt-4 space-x-4">
+
+      <div class="flex justify-end mt-6">
         <button [disabled]="newNoteForm.invalid" [ngClass]="{
-          'cursor-not-allowed hover:scale-100 active:scale-100': newNoteForm.invalid,
-          'cursor-pointer hover:scale-105 active:scale-95': !newNoteForm.invalid
-      
-            }"
-          class="w-full px-4 py-2 text-white transition-all transform bg-indigo-600 rounded-lg hover:bg-indigo-700">
+            'cursor-not-allowed hover:scale-100 active:scale-100': newNoteForm.invalid,
+            'cursor-pointer hover:scale-105 active:scale-95': !newNoteForm.invalid
+          }"
+          class="w-full px-4 py-2 text-white transition-all transform bg-indigo-600 rounded-lg hover:bg-indigo-700 sm:w-auto">
           @if (resState) {
           <i class="ml-2 mr-3 text-gray-400 fas fa-spinner fa-spin"></i>
           } @else {

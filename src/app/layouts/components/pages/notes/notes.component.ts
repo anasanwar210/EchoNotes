@@ -39,6 +39,8 @@ export class NotesComponent implements OnInit {
   allNotes: INote[] = [];
   curNote: WritableSignal<INote | null> = signal(null);
   searchValue: string = '';
+  isDeletePopupOpen: boolean = false;
+  noteToDelete: string | null = null;
 
   // Call Services
   private readonly noteOperationsService: NoteOperationsService = inject(
@@ -55,6 +57,11 @@ export class NotesComponent implements OnInit {
   }
 
   // Methods
+  /*
+  ==============================
+  ----> Toggle Visibility (New Note/View Note)
+  ==============================
+  */
   toggleVisibility(): void {
     this.isNewNote.update((v) => !v);
     console.log('isNewNote:', this.isNewNote());
@@ -71,8 +78,40 @@ export class NotesComponent implements OnInit {
   }
 
   /*
+  ==================================
+  ----> Delete Operations
+  ==================================
+  */
+
+  openDeletePopup(noteId: string) {
+    this.noteToDelete = noteId;
+    this.isDeletePopupOpen = true;
+  }
+
+  closeDeletePopup() {
+    this.isDeletePopupOpen = false;
+    this.noteToDelete = null;
+  }
+
+  confirmDelete() {
+    if (this.noteToDelete) {
+      this.deleteNote(this.noteToDelete);
+      this.closeDeletePopup();
+    }
+  }
+
+  deleteNote(id: string): void {
+    this.noteOperationsService.deleteNote(id).subscribe({
+      next: () => {
+        console.log('Note deleted successfully');
+        this.getUserNotes();
+      },
+    });
+  }
+
+  /*
   ===================================
-  1) ----> Get All User Notes
+  ----> Get All User Notes
   ===================================
   */
   getUserNotes(): void {
@@ -83,20 +122,6 @@ export class NotesComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-      },
-    });
-  }
-
-  /*
-  ===================================
-  2) ----> Delete Specific Note
-  ===================================
-  */
-  deleteNote(id: string): void {
-    this.noteOperationsService.deleteNote(id).subscribe({
-      next: () => {
-        console.log('Note deleted successfully');
-        this.getUserNotes();
       },
     });
   }

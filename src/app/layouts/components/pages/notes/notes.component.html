@@ -1,6 +1,6 @@
-<div class="min-h-screen p-6 transition-colors duration-300">
+<div class="min-h-dvh p-6 transition-colors duration-300">
   <app-main-title></app-main-title>
-  <div class="fixed flex space-x-4 top-4 right-4">
+  <div class="fixed flex z-30 space-x-4 top-4 right-4">
     <app-mode></app-mode>
     <app-logout></app-logout>
   </div>
@@ -11,7 +11,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
     </svg>
   </button>
-  <div class="relative mb-6">
+  <div class="relative mb-6 mx-auto w-full max-w-md sm:max-w-lg">
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
       <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -19,7 +19,7 @@
       </svg>
     </div>
     <input type="search" placeholder="Search By Note Title..." [(ngModel)]="searchValue"
-      class="w-full py-3 pl-10 pr-4 text-gray-900 placeholder-gray-400 transition-all duration-300 bg-white border border-gray-300 rounded-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500" />
+      class="w-full py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-400 transition-all duration-300 bg-white border border-gray-300 rounded-lg dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500" />
   </div>
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     @if ((allNotes | search:searchValue).length > 0) {
@@ -32,8 +32,9 @@
         class="absolute w-24 h-24 origin-bottom-right transform rotate-45 -top-2 -left-2 bg-yellow-50 dark:bg-gray-600 opacity-30">
       </div>
 
+
       <div class="absolute top-3 right-3">
-        <button (click)="$event.stopPropagation(); deleteNote(note._id)"
+        <button (click)="$event.stopPropagation(); openDeletePopup(note._id)"
           class="flex items-center justify-center w-10 h-10 text-red-600 transition-all duration-300 bg-transparent rounded-full shadow-md hover:text-white dark:text-red-400 dark:hover:text-white hover:bg-red-600 dark:hover:bg-red-500 hover:scale-105 hover:rotate-3 hover:shadow-xl hover:shadow-red-500/40">
           <i class="text-lg fa fa-trash-alt"></i>
         </button>
@@ -63,11 +64,50 @@
           add a new note
         </strong>
       </p>
-
     </div>
     }
   </div>
 </div>
+
+
+@if (isDeletePopupOpen) {
+<div (click)="closeDeletePopup()" id="deletePopup"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="relative w-full max-w-sm p-6 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    (click)="$event.stopPropagation()">
+
+    <button (click)="closeDeletePopup()"
+      class="absolute p-2 text-gray-500 transition-colors duration-200 rounded-full top-3 right-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+      <i class="text-lg fas fa-times"></i>
+    </button>
+
+
+    <div class="flex flex-col items-center">
+      <i class="text-4xl text-red-600 fas fa-exclamation-circle dark:text-red-400"></i>
+      <h3 class="mt-2 text-xl font-semibold text-gray-800 dark:text-white">
+        Are You Sure?
+      </h3>
+      <p class="mt-1 text-center text-gray-600 dark:text-gray-300">
+        Do you really want to delete this note? This action cannot be undone.
+      </p>
+    </div>
+
+
+    <div class="flex justify-between mt-6">
+      <button (click)="confirmDelete()"
+        class="flex items-center px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700">
+        <i class="mr-2 fas fa-trash-alt"></i>
+        Yes, Delete
+      </button>
+      <button (click)="closeDeletePopup()"
+        class="flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+        <i class="mr-2 fas fa-times"></i>
+        No, Cancel
+      </button>
+    </div>
+  </div>
+</div>
+}
 
 <app-new-note (noteAdded)="getUserNotes()" [isNewNote]="isNewNote()" (closeNewNote)="toggleVisibility()"></app-new-note>
 <app-current-note (noteAdded)="getUserNotes()" [isViewNote]="isViewNote()" [curNote]="curNote()"

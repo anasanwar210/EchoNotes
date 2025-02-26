@@ -1,12 +1,11 @@
-<div class="flex flex-col items-center justify-center min-h-screen">
+<div
+  class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-700">
   <div class="fixed top-4 right-4">
 
-    <!-- Dark/Light Mode Toggle -->
     <app-mode></app-mode>
   </div>
   <app-main-title></app-main-title>
   <div class="authFormStyle">
-
     <h2 class="mb-8 text-3xl font-bold text-center text-gray-900 dark:text-white">Sign In</h2>
     <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
       <div class="mb-4">
@@ -14,7 +13,7 @@
           <i class="mr-2 text-indigo-600 fas fa-envelope"></i>Email
         </label>
         <input formControlName="email" type="email" id="email"
-          class="block w-full px-3 py-2 mt-1 mb-2 transition-all border border-gray-300 rounded-lg shadow-sm dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+          class="block w-full px-3 py-2 mt-1 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           placeholder="Enter your email" required>
         @if (signInForm.get('email')?.errors && signInForm.get('email')?.touched) {
         <div class="alert">
@@ -32,13 +31,14 @@
         }
       </div>
 
+
       <div class="mb-4">
         <label for="password" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
           <i class="mr-2 text-indigo-600 fas fa-lock"></i>Password
         </label>
         <div class="relative">
           <input formControlName="password" type="password" id="password"
-            class="block w-full px-3 py-2 mt-1 mb-2 transition-all border border-gray-300 rounded-lg shadow-sm dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+            class="block w-full px-3 py-2 mt-1 mb-2 text-gray-700 bg-gray-100 rounded-lg dark:bg-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             placeholder="Enter your password" required>
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
             (click)="passType.togglePasswordVisibility()">
@@ -61,22 +61,20 @@
       </div>
 
 
-
-
-
       <button [disabled]="signInForm.invalid" [ngClass]="{
         'cursor-not-allowed hover:scale-100 active:scale-100': signInForm.invalid,
         'cursor-pointer hover:scale-105 active:scale-95': !signInForm.invalid
-    
-          }" class="w-full px-4 py-2 text-white transition-all transform bg-indigo-600 rounded-lg hover:bg-indigo-700">
+      }" class="w-full px-4 py-2 text-white transition-all transform bg-indigo-600 rounded-lg hover:bg-indigo-700">
         @if (resState) {
         <i class="ml-2 mr-3 text-gray-400 fas fa-spinner fa-spin"></i>
         } @else {
-        <i class="fas fa-sign-in-alt"></i>
+        <i class="mr-2 fas fa-sign-in-alt"></i>
         Sign In
         }
       </button>
     </form>
+
+
     <p class="mt-6 text-center text-gray-600 dark:text-gray-400">
       Don't have an account?
       <a [routerLink]="['/signup']" class="text-indigo-600 dark:text-indigo-400 hover:underline">Sign Up</a>
